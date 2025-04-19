@@ -1,0 +1,14 @@
+
+{
+  "name": "Truth or Bare",
+  "short_name": "TruthBare",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#0f3d3e",
+  "theme_color": "#6a0f49",
+  "icons": [{
+    "src": "assets/icon.png",
+    "type": "image/png",
+    "sizes": "512x512"
+  }]
+}
