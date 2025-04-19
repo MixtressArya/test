@@ -1,83 +1,123 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Truth or Bare Spinner</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="manifest" href="manifest.json" />
   <style>
     body {
-      background: linear-gradient(to bottom right, #0f3d3e, #6a0f49);
-      color: #ffffff;
-      font-family: Arial, sans-serif;
-      text-align: center;
-      padding: 2rem;
+      background: linear-gradient(135deg, #071e14, #13402b);
+      color: #fff; font-family: Arial, sans-serif; text-align: center; padding: 2rem;
     }
-    h1 {
-      font-size: 2rem;
-      margin-bottom: 1rem;
-      text-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
-    }
+    h1 { text-shadow: 0 0 8px rgba(255,255,255,0.2); }
     button {
-      background: linear-gradient(135deg, #6a0f49, #0f3d3e);
-      border: none;
-      padding: 1rem 2rem;
-      margin: 1rem;
-      color: #fff;
-      font-size: 1.2rem;
-      border-radius: 12px;
-      cursor: pointer;
-      transition: all 0.3s ease;
+      background: #2e004f; color: #fff; border: none; padding: 1rem 2rem;
+      margin: 1rem; font-size: 1.2rem; border-radius: 12px;
+      cursor: pointer; transition: transform 0.2s, background 0.2s;
     }
-    button:hover {
-      transform: scale(1.05);
-      background: linear-gradient(135deg, #0f3d3e, #6a0f49);
-    }
+    button:hover { transform: scale(1.05); background: #3e006f; }
     .card {
-      background: rgba(0, 0, 0, 0.4);
-      border-radius: 1rem;
-      padding: 2rem;
-      max-width: 600px;
-      margin: 2rem auto;
-      box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+      background: rgba(0,0,0,0.4); border-radius: 1rem; padding: 2rem;
+      max-width: 600px; margin: 2rem auto; box-shadow: 0 0 20px rgba(255,255,255,0.1);
     }
+    /* Tutorial Modal */
+    .modal { position: fixed; top:0; left:0; width:100%; height:100%;
+      background: rgba(0,0,0,0.8); display:flex; align-items:center;
+      justify-content:center; z-index:9999; }
+    .modal-content { background:#071e14; padding:2rem;
+      border-radius:12px; max-width:90%; width:360px; color:#fff; text-align:center; }
+    .modal-content h2 { margin-bottom:0.5rem; font-size:1.5rem; }
+    .modal-content p { margin-bottom:1.5rem; font-size:1rem; line-height:1.4; }
+    .modal-content button { background:#2e004f; color:#fff; border:none;
+      padding:0.5rem 1rem; margin:0 0.5rem; border-radius:8px; cursor:pointer;
+      transition:background 0.2s; }
+    .modal-content button:hover { background:#3e006f; }
   </style>
 </head>
 <body>
   <h1>Truth or Bare</h1>
-  <p>Select a category and reveal your fate...</p>
+  <!-- Tutorial Modal -->
+  <div id="tutorialModal" class="modal">
+    <div class="modal-content">
+      <div id="step1" class="step">
+        <h2>Welcome to Truth or Bare</h2>
+        <p>This little world is just for us—no audience, no pressure. Ready to get closer?</p>
+        <button class="nextBtn">Next →</button>
+      </div>
+      <div id="step2" class="step" style="display:none">
+        <h2>Light & Playful</h2>
+        <p>Easy, fun prompts to make us laugh and smile. Think silly selfies, goofy doodles, or “who, me?” faces.</p>
+        <button class="prevBtn">← Back</button><button class="nextBtn">Next →</button>
+      </div>
+      <div id="step3" class="step" style="display:none">
+        <h2>Deep & Honest</h2>
+        <p>Vulnerable questions that bring us closer—share memories, fears, hopes, and what makes you feel safe.</p>
+        <button class="prevBtn">← Back</button><button class="nextBtn">Next →</button>
+      </div>
+      <div id="step4" class="step" style="display:none">
+        <h2>Flirty & Spicy</h2>
+        <p>Teasing, suggestive prompts—close-ups, whispers, fantasies. All flirting, no pressure.</p>
+        <button class="prevBtn">← Back</button><button class="nextBtn">Next →</button>
+      </div>
+      <div id="step5" class="step" style="display:none">
+        <h2>Your Ideas!</h2>
+        <p>Got a cheeky question or dare you’d love to add? Text them to me and I’ll slip them right into our game.</p>
+        <button class="prevBtn">← Back</button><button id="closeTutorial">Let’s Play!</button>
+      </div>
+    </div>
+  </div>
+  <!-- Spinner UI -->
   <div>
-    <button onclick="spin('light')">Light & Playful</button>
-    <button onclick="spin('deep')">Deep & Honest</button>
-    <button onclick="spin('flirty')">Flirty & Spicy</button>
-    <button onclick="spin('random')">Wild Card</button>
+    <button id="lightBtn">Light & Playful</button>
+    <button id="deepBtn">Deep & Honest</button>
+    <button id="flirtyBtn">Flirty & Spicy</button>
+    <button id="wildBtn">Wild Card</button>
   </div>
   <div class="card" id="output">Your prompt will appear here.</div>
-
+  <!-- Confetti library -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+  <script src="js/prompts.js"></script>
   <script>
-    const prompts = {
-      light: [
-        "Send a selfie with your ‘I’m thinking of you’ face.",
-        "Snap a pic of something small that made you smile today."
-      ],
-      deep: [
-        "What’s something you wish people understood about you?",
-        "Describe a moment where you felt truly seen."
-      ],
-      flirty: [
-        "Send a close-up of your lips with a flirty caption.",
-        "Describe how you'd kiss me if you didn’t have to hold back."
-      ]
-    };
-
-    function spin(category) {
-      const cat = category === 'random'
-        ? Object.keys(prompts)[Math.floor(Math.random() * 3)]
-        : category;
-      const list = prompts[cat];
-      const prompt = list[Math.floor(Math.random() * list.length)];
-      document.getElementById('output').textContent = prompt;
+    // Spinner logic with non-repeating and confetti
+    function getUsed(mode, cat) {
+      return JSON.parse(localStorage.getItem(mode + '_' + cat)) || [];
     }
+    function setUsed(mode, cat, arr) {
+      localStorage.setItem(mode + '_' + cat, JSON.stringify(arr));
+    }
+    function spin(mode, category) {
+      const pool = mode === 'truth' ? truthPrompts[category] : barePrompts[category];
+      let used = getUsed(mode, category);
+      const available = pool.map((_,i)=>i).filter(i=>!used.includes(i));
+      if (!available.length) used = [];
+      const idx = available[Math.floor(Math.random()*available.length)];
+      used.push(idx); setUsed(mode, category, used);
+      document.getElementById('output').textContent = pool[idx];
+      confetti({ particleCount:80, spread:60, origin:{y:0.6}, colors:['#8AE6BD','#FAB1A0','#6F42C1'] });
+    }
+    document.getElementById('lightBtn').onclick = ()=> spin(currentMode='bare'? 'bare' : 'truth','A'); // adjust mode toggle accordingly
+    document.getElementById('deepBtn').onclick = ()=> spin(currentMode='bare'? 'bare' : 'truth','B');
+    document.getElementById('flirtyBtn').onclick = ()=> spin(currentMode='bare'? 'bare' : 'truth','C');
+    document.getElementById('wildBtn').onclick = ()=> spin(currentMode='bare'? 'bare' : 'truth',['A','B','C'][Math.floor(Math.random()*3)]);
+    // Tutorial modal logic
+    if (!localStorage.getItem('tutorialSeen')) {
+      const modal = document.getElementById('tutorialModal');
+      const steps = modal.querySelectorAll('.step');
+      let current = 0;
+      modal.style.display = 'flex';
+      modal.querySelectorAll('.nextBtn').forEach(btn=>btn.addEventListener('click',()=>{
+        steps[current].style.display='none'; current++; steps[current].style.display='block';
+      }));
+      modal.querySelectorAll('.prevBtn').forEach(btn=>btn.addEventListener('click',()=>{
+        steps[current].style.display='none'; current--; steps[current].style.display='block';
+      }));
+      document.getElementById('closeTutorial').addEventListener('click',()=>{
+        modal.style.display='none'; localStorage.setItem('tutorialSeen','true');
+      });
+    }
+    // Register service worker
+    if ('serviceWorker' in navigator) { navigator.serviceWorker.register('/service-worker.js'); }
   </script>
 </body>
 </html>

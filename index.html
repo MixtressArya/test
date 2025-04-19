@@ -8,47 +8,35 @@
   <link rel="manifest" href="manifest.json" />
   <style>
     body {
-      margin: 0;
-      padding: 0;
-      height: 100vh;
-      background: linear-gradient(135deg, #0f3d3e, #6a0f49);
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      margin: 0; padding: 0; height: 100vh;
+      background: linear-gradient(135deg, #071e14, #13402b);
+      display: flex; justify-content: center; align-items: center;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      color: #fff;
-      animation: fadeOut 2s ease 3s forwards;
+      color: #fff; animation: fadeOut 2s ease 3s forwards;
     }
-
-    .splash {
-      text-align: center;
-      opacity: 1;
-      transition: opacity 0.5s ease-in-out;
+    .splash { text-align: center; }
+    .splash img { width: 100px; margin-bottom: 20px; }
+    .static-message-top {
+      font-size: 1rem; margin: 0 0 8px;
+      color: #ffd1e0; text-shadow: 0 0 4px rgba(0,0,0,0.7);
     }
-
-    .splash img {
-      width: 100px;
-      margin-bottom: 20px;
+    .splash p#splashText {
+      font-size: 1.4rem; font-style: italic; color: #ffd1e0;
+      margin: 8px 0;
     }
-
-    .splash p {
-      font-size: 1.4rem;
-      font-style: italic;
-      color: #ffd1e0;
+    .static-message-bottom {
+      font-size: 1rem; margin: 8px 0 0;
+      color: #ffd1e0; text-shadow: 0 0 4px rgba(0,0,0,0.7);
     }
-
-    @keyframes fadeOut {
-      to {
-        opacity: 0;
-        visibility: hidden;
-      }
-    }
+    @keyframes fadeOut { to { opacity: 0; visibility: hidden; } }
   </style>
 </head>
 <body>
   <div class="splash">
     <img src="assets/heart_icon.png" alt="Heart Icon" />
+    <p class="static-message-top">Lovingly created for us to explore each other, one truth at a time.</p>
     <p id="splashText">Loading...</p>
+    <p class="static-message-bottom">Warning: May cause sparks, blushes, or spontaneous truth bombs.</p>
   </div>
   <script>
     const messages = [
@@ -63,10 +51,10 @@
     ];
     document.getElementById("splashText").textContent =
       messages[Math.floor(Math.random() * messages.length)];
-
-    setTimeout(() => {
-      window.location.href = "main.html";
-    }, 3500);
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/service-worker.js');
+    }
+    setTimeout(() => { window.location.href = "main.html"; }, 3500);
   </script>
 </body>
 </html>
