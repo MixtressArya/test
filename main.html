@@ -1,1 +1,75 @@
-<!DOCTYPE html><html><head><title>Truth or Bare Spinner</title></head><body><h1>Truth or Bare App</h1></body></html>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Truth or Bare Spinner</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      background: #121212;
+      color: #ffffff;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 2rem;
+    }
+    button {
+      background-color: #0f3d3e;
+      border: none;
+      padding: 1rem 2rem;
+      margin: 1rem;
+      color: #fff;
+      font-size: 1.2rem;
+      border-radius: 12px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #6a0f49;
+    }
+    .card {
+      background: #1e1e1e;
+      border-radius: 1rem;
+      padding: 2rem;
+      max-width: 600px;
+      margin: 2rem auto;
+    }
+  </style>
+</head>
+<body>
+  <h1>Truth or Bare</h1>
+  <p>Select a category and reveal your fate...</p>
+  <div>
+    <button onclick="spin('light')">Light & Playful</button>
+    <button onclick="spin('deep')">Deep & Honest</button>
+    <button onclick="spin('flirty')">Flirty & Spicy</button>
+    <button onclick="spin('random')">Wild Card</button>
+  </div>
+  <div class="card" id="output">Your prompt will appear here.</div>
+
+  <script>
+    const prompts = {
+      light: [
+        "Send a selfie with your ‘I’m thinking of you’ face.",
+        "Snap a pic of something small that made you smile today."
+      ],
+      deep: [
+        "What’s something you wish people understood about you?",
+        "Describe a moment where you felt truly seen."
+      ],
+      flirty: [
+        "Send a close-up of your lips with a flirty caption.",
+        "Describe how you'd kiss me if you didn’t have to hold back."
+      ]
+    };
+
+    function spin(category) {
+      const cat = category === 'random'
+        ? Object.keys(prompts)[Math.floor(Math.random() * 3)]
+        : category;
+      const list = prompts[cat];
+      const prompt = list[Math.floor(Math.random() * list.length)];
+      document.getElementById('output').textContent = prompt;
+    }
+  </script>
+</body>
+</html>
