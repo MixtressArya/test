@@ -7,7 +7,7 @@
   "background_color": "#0f3d3e",
   "theme_color": "#6a0f49",
   "icons": [{
-    "src": "assets/icon.png",
+    "src": "assets/heart_icon.png",
     "type": "image/png",
     "sizes": "512x512"
   }]

@@ -7,14 +7,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body {
-      background: #121212;
+      background: linear-gradient(to bottom right, #0f3d3e, #6a0f49);
       color: #ffffff;
       font-family: Arial, sans-serif;
       text-align: center;
       padding: 2rem;
     }
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      text-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
+    }
     button {
-      background-color: #0f3d3e;
+      background: linear-gradient(135deg, #6a0f49, #0f3d3e);
       border: none;
       padding: 1rem 2rem;
       margin: 1rem;
@@ -22,16 +27,19 @@
       font-size: 1.2rem;
       border-radius: 12px;
       cursor: pointer;
+      transition: all 0.3s ease;
     }
     button:hover {
-      background-color: #6a0f49;
+      transform: scale(1.05);
+      background: linear-gradient(135deg, #0f3d3e, #6a0f49);
     }
     .card {
-      background: #1e1e1e;
+      background: rgba(0, 0, 0, 0.4);
       border-radius: 1rem;
       padding: 2rem;
       max-width: 600px;
       margin: 2rem auto;
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
     }
   </style>
 </head>
